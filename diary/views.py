@@ -49,7 +49,7 @@ class OnlyYouMixin(UserPassesTestMixin):
         # ログインユーザーと日記の作成ユーザーを比較し、異なればraise_exceptionの設定に従う
         return self.request.user == diary.user
 
-class DiaryDetailView(LoginRequiredMixin, generic.DetailView, OnlyYouMixin):
+class DiaryDetailView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
     model = Diary
     template_name = 'diary/diary_detail.html'
 
@@ -70,7 +70,7 @@ class DiaryCreateView(LoginRequiredMixin, generic.CreateView):
         messages.error(self.request, '日記の作成に失敗しました。')
         return super().form_invalid(form)
 
-class DiaryUpdateView(LoginRequiredMixin, generic.UpdateView, OnlyYouMixin):
+class DiaryUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
     model = Diary
     template_name = 'diary/diary_update.html'
     form_class = DiaryCreateForm
@@ -87,7 +87,7 @@ class DiaryUpdateView(LoginRequiredMixin, generic.UpdateView, OnlyYouMixin):
         messages.error(self.request, '日記の更新に失敗しました。')
         return super().form_invalid(form)
 
-class DiaryDeleteView(LoginRequiredMixin, generic.DeleteView, OnlyYouMixin):
+class DiaryDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     model = Diary
     template_name = 'diary/diary_delete.html'
     success_url = reverse_lazy('diary:diary_list')
